@@ -2,6 +2,7 @@ const path = require('path')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const FileListPlugins = require('./myPlugins/fileListPlugins')
 
 module.exports = {
   entry:{
@@ -32,12 +33,7 @@ module.exports = {
       chunks:['index']
       // path:path.resolve(__dirname,"./dist")
     }),
-    // new htmlWebpackPlugin({
-    //   template:'./src/list.html',
-    //   filename:'list.html',
-    //   chunks:['list']
-    //   // path:path.resolve(__dirname,"./dist")
-    // }),
+    new FileListPlugins(),
     new CleanWebpackPlugin(),
   ],
   // resolveLoader:{
