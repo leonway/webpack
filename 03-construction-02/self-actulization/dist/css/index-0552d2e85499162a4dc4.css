@@ -1,0 +1,18 @@
+body>div[id=app]{border:1px solid #f4a460;font-size:22px}
+@font-face {
+  font-family: 'webfont';
+  font-display: swap;
+  src: url(../fonts/2f43d2ebabb170d439d6ece9a4e16c72.eot);
+  /* IE9 */
+  src: url(../fonts/2f43d2ebabb170d439d6ece9a4e16c72.eot?#iefix) format('embedded-opentype'),  url(../fonts/c096aa268571a7bb47891f88e2dcb93f.woff2) format('woff2'), url(../fonts/08b8dcbe0509bdcc60ab6c7a8b286885.woff) format('woff'),  url(../fonts/6915840c6e3965d2d2c16b28ea2a122b.ttf) format('truetype'),  url(../fonts/ceeb3625baea7a9c142af749da144c0e.svg#webfont) format('svg');
+  /* iOS 4.1- */
+}
+body {
+  font-family: 'webfont' !important;
+}
+body div[id=text] {
+  border: blueviolet 1px solid;
+  background: url(../images/cf214af2e68adec217586d01861c40ee.png) center no-repeat;
+  height: 300px;
+}
+

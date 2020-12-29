@@ -12,7 +12,16 @@ module.exports = {
     path:path.resolve(__dirname,"./dist"),
     filename:'[name]-[hash].js'
   },
-  mode:'production',
+  mode:'development',
+  devtool:'cheap-source-map',
+  devServer:{
+    open:true,
+    proxy:{
+     '/api': {
+       target:'http://localhost:9092'
+     }
+    }
+  },
   plugins:[
     new MiniCssExtractPlugin({
       filename:'css/[name]-[contenthash].css',
@@ -23,12 +32,12 @@ module.exports = {
       chunks:['index']
       // path:path.resolve(__dirname,"./dist")
     }),
-    new htmlWebpackPlugin({
-      template:'./src/list.html',
-      filename:'list.html',
-      chunks:['list']
-      // path:path.resolve(__dirname,"./dist")
-    }),
+    // new htmlWebpackPlugin({
+    //   template:'./src/list.html',
+    //   filename:'list.html',
+    //   chunks:['list']
+    //   // path:path.resolve(__dirname,"./dist")
+    // }),
     new CleanWebpackPlugin(),
   ],
   // resolveLoader:{
@@ -36,6 +45,10 @@ module.exports = {
   // },
   module:{
     rules:[
+      {
+        test:/\.js$/,
+        use: ["babel-loader"]
+      },
       {
         test:/\.css$/,
         use:[

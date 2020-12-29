@@ -1,0 +1,25 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "modules": false,
+        // "useBuiltIns": "entry",//入口文件第一行 导入core-js regenerator-runtime
+        "useBuiltIns": "usage",//依赖core-js regenerator-runtime 实现按需引入垫片
+        "corejs": 2
+      }
+    ]
+  ],
+  "plugins": [
+    // [
+    //   "@babel/plugin-transform-runtime",
+    //   {
+    //     "corejs": {
+    //       "version": 3,
+    //       "proposals": true
+    //     },
+    //     "useESModules": true
+    //   }
+    // ]
+  ]
+}

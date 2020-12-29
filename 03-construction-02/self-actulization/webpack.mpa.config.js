@@ -1,39 +1,47 @@
 const path = require('path')
+const glob = require('glob')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
+const setMPA = ()=>{
+  const entry = {}
+  const htmlwebpackplugins = []
+
+  const entryFiles = glob.sync(path.join(__dirname,"./src/*/index.js"))
+  entryFiles.map((entryFile,index)=>{
+    const pageName = entryFile.match(/src\/(.*)\/index\.js$/)[1]
+    entry[pageName] = entryFile
+    htmlwebpackplugins.push(new htmlWebpackPlugin({
+      template:path.join(__dirname,`./src/${pageName}/index.html`),
+      filename:`${pageName}/${pageName}.html`,
+      chunks:[pageName]
+    }))
+  })
+  return {
+    entry,
+    htmlwebpackplugins
+  }
+}
+
+const {
+  entry,
+  htmlwebpackplugins
+} = setMPA()
 module.exports = {
-  entry:{
-    index:'./src/index.js',
-    list:'./src/list.js',
-  },
+  entry,
   output:{
-    path:path.resolve(__dirname,"./dist"),
-    filename:'[name]-[hash].js'
+    path:path.resolve(__dirname,"./mpa"),
+    filename:'js/[name]-[chunkhash:8].js'
   },
   mode:'production',
   plugins:[
     new MiniCssExtractPlugin({
       filename:'css/[name]-[contenthash].css',
     }),
-    new htmlWebpackPlugin({
-      template:'./src/index.html',
-      filename:'index.html',
-      chunks:['index']
-      // path:path.resolve(__dirname,"./dist")
-    }),
-    new htmlWebpackPlugin({
-      template:'./src/list.html',
-      filename:'list.html',
-      chunks:['list']
-      // path:path.resolve(__dirname,"./dist")
-    }),
+    ...htmlwebpackplugins,
     new CleanWebpackPlugin(),
   ],
-  // resolveLoader:{
-  //   modules: ['node_modules','myLoaders']
-  // },
   module:{
     rules:[
       {
@@ -65,14 +73,6 @@ module.exports = {
           'less-loader'
         ]
       },
-      // {
-      //   test:/\.less$/,
-      //   use:[
-      //     'clm-style-loader',
-      //     'clm-css-loader',
-      //     'clm-less-loader'
-      //   ]
-      // },
       {
         test:/\.(png|jpg|jpeg|gif)$/i,
         use:[
@@ -81,9 +81,6 @@ module.exports = {
             options:{
               limit:1024*2,
               outputPath:'images',
-              // publicPath:'../',
-              // outputPath: "images/",
-              // publicPath: "../images",
               filename:'[name]-[contenthash].[ext]'
             }
           }
@@ -99,25 +96,7 @@ module.exports = {
             filename:'[name]-[contenthash].[ext]'
           },
         },
-      },
-      // {
-      //   test:/\.js$/,
-      //   // use:path.resolve(__dirname,'./myLoaders/replace-loader.js')
-      //   use:[
-      //     {
-      //       loader:'replace-loader',
-      //       options:{
-      //         info:'reamey'
-      //       }
-      //     },
-      //     {
-      //       loader:'replace-async-loader',
-      //       options:{
-      //         info:'你是'
-      //       }
-      //     }
-      //   ]
-      // }
+      }
     ]
   }
 }
